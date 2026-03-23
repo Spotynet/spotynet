@@ -1,26 +1,333 @@
 @import "tailwindcss";
 
+/* Spotynet brand palette — teal #00C8BC, blue #007BFF */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #07070f;
+  --background-2: #0d0d18;
+  --foreground: #f0f0f8;
+  --muted: #111120;
+  --muted-foreground: #8888a8;
+  --accent: #007BFF;
+  --accent-teal: #00C8BC;
+  --accent-foreground: #07070f;
+  --accent-dim: #0062cc;
+  --card: #0e0e1c;
+  --card-hover: #131325;
+  --card-border: rgba(255, 255, 255, 0.07);
+  --card-border-hover: rgba(0, 200, 188, 0.25);
+  --glow: rgba(0, 123, 255, 0.4);
+  --glow-teal: rgba(0, 200, 188, 0.35);
+  --gradient-start: #08102a;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-2: var(--background-2);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-teal: var(--accent-teal);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-dim: var(--accent-dim);
+  --color-card: var(--card);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-orbitron);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
 }
+
+/* ════════════════════════════════════════════
+   KEYFRAMES
+════════════════════════════════════════════ */
+
+/* Entrance animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Continuous — decorative */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-16px); }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-8px) rotate(1deg); }
+}
+
+@keyframes pulseGlowTeal {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(0, 200, 188, 0.2), inset 0 0 12px rgba(0, 200, 188, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 32px rgba(0, 200, 188, 0.45), inset 0 0 20px rgba(0, 200, 188, 0.1);
+  }
+}
+
+@keyframes pulseGlowBlue {
+  0%, 100% { box-shadow: 0 0 16px rgba(0, 123, 255, 0.15); }
+  50%       { box-shadow: 0 0 40px rgba(0, 123, 255, 0.4); }
+}
+
+@keyframes shimmerGradient {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes scanLine {
+  0%   { top: -4px; opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@keyframes rotateSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes borderFlicker {
+  0%, 100% { opacity: 1; }
+  45%       { opacity: 1; }
+  50%       { opacity: 0.4; }
+  55%       { opacity: 1; }
+}
+
+@keyframes cornerPulse {
+  0%, 100% { opacity: 0.7; }
+  50%       { opacity: 1; filter: drop-shadow(0 0 4px var(--accent-teal)); }
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    background: rgba(0, 200, 188, 0.1);
+    border-color: rgba(0, 200, 188, 0.2);
+  }
+  50% {
+    background: rgba(0, 200, 188, 0.18);
+    border-color: rgba(0, 200, 188, 0.45);
+  }
+}
+
+@keyframes titleUnderlineGrow {
+  from { width: 0; opacity: 0; }
+  to   { width: 3rem; opacity: 1; }
+}
+
+@keyframes cardBorderGlow {
+  0%, 100% { border-color: rgba(255,255,255,0.07); }
+  50%       { border-color: rgba(0,200,188,0.18); }
+}
+
+/* ════════════════════════════════════════════
+   TYPOGRAPHY
+════════════════════════════════════════════ */
+
+.font-display {
+  font-family: var(--font-orbitron), var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* Animated shimmer gradient text */
+.text-brand-gradient {
+  background: linear-gradient(
+    120deg,
+    var(--accent-teal) 0%,
+    var(--accent) 35%,
+    var(--accent-teal) 65%,
+    var(--accent) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmerGradient 4s linear infinite;
+}
+
+/* ════════════════════════════════════════════
+   SECTION LABEL
+════════════════════════════════════════════ */
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-teal);
+}
+
+/* ════════════════════════════════════════════
+   BACKGROUNDS
+════════════════════════════════════════════ */
+
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(0, 200, 188, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 200, 188, 0.035) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.bg-brand-gradient {
+  background: linear-gradient(120deg, var(--accent-teal) 0%, var(--accent) 100%);
+}
+
+/* ════════════════════════════════════════════
+   GLOW & EFFECTS
+════════════════════════════════════════════ */
+
+.glow-accent   { box-shadow: 0 0 24px var(--glow); }
+.glow-teal     { box-shadow: 0 0 24px var(--glow-teal); }
+
+/* Title underline with grow-in animation */
+.title-underline {
+  width: 3rem;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-teal), var(--accent));
+  border-radius: 9999px;
+  margin-top: 0.75rem;
+  animation: titleUnderlineGrow 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+/* ════════════════════════════════════════════
+   CARD STYLES
+════════════════════════════════════════════ */
+
+.service-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 1rem;
+  padding: 1.75rem;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.service-card:hover {
+  background: var(--card-hover);
+  border-color: var(--card-border-hover);
+  box-shadow: 0 0 32px rgba(0, 200, 188, 0.08);
+  transform: translateY(-4px);
+}
+
+/* Animated icon badge */
+.icon-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.6rem;
+  background: rgba(0, 200, 188, 0.1);
+  border: 1px solid rgba(0, 200, 188, 0.2);
+  color: var(--accent-teal);
+  font-size: 1.1rem;
+  animation: badgePulse 3s ease-in-out infinite;
+}
+
+/* Work image card */
+.work-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid var(--card-border);
+  background: var(--card);
+  aspect-ratio: 4/3;
+  min-height: 220px;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+}
+
+.work-card:hover {
+  border-color: var(--card-border-hover);
+  box-shadow: 0 0 32px rgba(0, 200, 188, 0.1);
+  transform: translateY(-4px) scale(1.01);
+}
+
+.work-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(7, 7, 15, 0.92) 0%,
+    rgba(7, 7, 15, 0.3) 55%,
+    transparent 100%
+  );
+}
+
+/* ════════════════════════════════════════════
+   HERO DECORATIVE
+════════════════════════════════════════════ */
+
+/* The floating geometric box */
+.hero-geo {
+  animation: floatSlow 6s ease-in-out infinite, scaleIn 0.8s cubic-bezier(0.16,1,0.3,1) 0.6s both;
+}
+
+/* Animated border frame */
+.hero-geo-frame {
+  animation: pulseGlowBlue 4s ease-in-out infinite;
+}
+
+/* Scanning line inside geometric */
+.hero-scan-line {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-teal), transparent);
+  animation: scanLine 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Corner accent markers */
+.hero-corner {
+  animation: cornerPulse 2.5s ease-in-out infinite;
+}
+
+/* ════════════════════════════════════════════
+   SCROLL-TRIGGERED ENTRANCE UTILITIES
+   Applied by the AnimateIn component
+════════════════════════════════════════════ */
+
+.anim-fade-up     { animation: fadeUp     0.65s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-fade-in     { animation: fadeIn     0.65s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-slide-right { animation: slideRight 0.65s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-scale-in    { animation: scaleIn    0.65s cubic-bezier(0.16, 1, 0.3, 1) both; }
