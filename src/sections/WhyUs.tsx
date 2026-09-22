@@ -26,7 +26,7 @@ export function WhyUs() {
         <ul className="mt-10 grid gap-5 sm:mt-16 sm:grid-cols-3">
           {w.points.map((point, i) => (
             <AnimateIn key={point.title} as="li" animation="scale-in" delay={i * 120} className="service-card group relative overflow-hidden">
-              <div className="icon-badge">{point.icon}</div>
+              <div className="icon-badge" aria-hidden="true">{point.icon}</div>
               <h3 className="font-display mt-5 text-lg font-bold text-[var(--foreground)]">{point.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-[var(--muted-foreground)]">{point.description}</p>
               <div className="absolute bottom-0 right-0 h-24 w-24 rounded-full bg-[var(--accent)]/5 blur-2xl" style={{ animation: `pulseGlowBlue 4s ease-in-out ${i * 0.7}s infinite` }} />

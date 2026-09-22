@@ -53,11 +53,8 @@ export function AnimateIn({
   return (
     <Comp
       ref={ref}
-      className={cn(visible ? classMap[animation] : "", className)}
-      style={{
-        opacity: visible ? undefined : 0,
-        animationDelay: visible ? `${delay}ms` : undefined,
-      }}
+      className={cn(!visible && "opacity-0", visible && classMap[animation], className)}
+      style={visible && delay > 0 ? { animationDelay: `${delay}ms` } : undefined}
     >
       {children}
     </Comp>

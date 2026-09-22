@@ -26,7 +26,7 @@ export function Services() {
         <ul className="mt-10 grid gap-5 sm:mt-16 sm:grid-cols-2 lg:grid-cols-3">
           {s.items.map((item, i) => (
             <AnimateIn key={item.title} as="li" animation="scale-in" delay={i * 120} className="service-card group flex flex-col">
-              <div className="icon-badge">⬡</div>
+              <div className="icon-badge" aria-hidden="true">⬡</div>
               <h3 className="font-display mt-5 text-lg font-bold text-[var(--foreground)]">{item.title}</h3>
               <p className="mt-3 flex-1 text-sm leading-relaxed text-[var(--muted-foreground)]">{item.description}</p>
               <a

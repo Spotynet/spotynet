@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 import { useLang } from "@/context/LanguageContext";
 
@@ -30,15 +31,13 @@ export function Work() {
         <ul className="mt-10 grid gap-5 sm:mt-16 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {w.projects.map((project, i) => (
             <AnimateIn key={project.title} as="li" animation="fade-up" delay={i * 130} className="work-card group">
-              <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient}`} />
-              <div
-                className="absolute inset-0 opacity-30"
-                style={{
-                  backgroundImage: "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
-                  backgroundSize: "28px 28px",
-                }}
+              <Image
+                src={project.image}
+                alt={`${project.title} — ${project.result}`}
+                fill
+                className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
-              <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--accent-teal)]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" style={{ top: "40%" }} />
               <div className="work-card-overlay" />
               <div className="absolute bottom-0 left-0 right-0 p-5">
                 <span className="rounded-md border border-[var(--card-border)] bg-[var(--background)]/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--accent-teal)] backdrop-blur-sm">
