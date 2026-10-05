@@ -1,0 +1,26 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+      - web_node_modules:/app/node_modules
+    expose:
+      - "3010"
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.27-alpine
+    ports:
+      - "127.0.0.1:3021:80"
+    environment:
+      SPOTYNET_WEB_HOST: ${SPOTYNET_WEB_HOST:-dev.spotynet.com}
+    volumes:
+      - ./nginx/default.conf.template:/etc/nginx/templates/default.conf.template:ro
+    depends_on:
+      - web
+    restart: unless-stopped
+
+volumes:
+  web_node_modules:

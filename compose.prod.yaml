@@ -1,0 +1,7 @@
+# Dedicated / production override: project nginx owns host port 80.
+# Usage: docker compose -f compose.yaml -f compose.prod.yaml up -d --build
+
+services:
+  nginx:
+    ports: !override
+      - "80:80"
