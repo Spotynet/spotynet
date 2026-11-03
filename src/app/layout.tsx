@@ -23,9 +23,6 @@ export const metadata: Metadata = {
   title: "Spotynet | Software Development",
   description:
     "We build software that scales. Custom development, modern stack, and clear processes.",
-  icons: {
-    icon: "/Isotipo Spotynet.png",
-  },
 };
 
 export default function RootLayout({

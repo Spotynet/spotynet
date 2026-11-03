@@ -12,7 +12,7 @@ fi
 
 RUN_USER="${SUDO_USER:-spotynet}"
 
-echo "==> Applying host nginx Spotynet landing (dev.spotynet.com → 3021)"
+echo "==> Applying host nginx Spotynet landing (spotynet-dev.spotynet.com → 3021)"
 bash "$ROOT/deploy/apply-nginx.sh"
 
 usermod -aG docker "$RUN_USER" 2>/dev/null || true
@@ -23,8 +23,7 @@ if id -nG "$RUN_USER" 2>/dev/null | grep -qw docker; then
   runuser -u "$RUN_USER" -- env HOME="$(getent passwd "$RUN_USER" | cut -d: -f6)" \
     bash -lc "cd '$ROOT' && ./dev.sh"
 else
-  export SPOTYNET_WEB_HOST="dev.spotynet.com"
-  export SPOTYNET_WEB_HOST_ALT="dev.spotynet.com"
+  export SPOTYNET_WEB_HOST="spotynet.com www.spotynet.com spotynet-dev.spotynet.com"
   pm2 delete spotynet-dev 2>/dev/null || true
   docker compose -f compose.yaml up -d --build
 fi
@@ -32,5 +31,5 @@ fi
 echo
 docker compose -f "$ROOT/compose.yaml" ps
 echo
-echo "DNS: dig +short dev.spotynet.com   # must be this EC2 EIP"
-echo "TLS: sudo certbot --nginx -d dev.spotynet.com --redirect"
+echo "DNS: dig +short spotynet.com   # must be this EC2 EIP"
+echo "TLS: sudo certbot --nginx -d spotynet.com -d www.spotynet.com --redirect"

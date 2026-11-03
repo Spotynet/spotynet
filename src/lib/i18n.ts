@@ -4,6 +4,7 @@ export const translations = {
       services: "Services",
       process: "Process",
       work: "Work",
+      login: "Log in",
       cta: "Start a project ↗",
       contact: "Contact",
     },
@@ -98,26 +99,24 @@ export const translations = {
       label: "Selected works",
       heading: "Project highlights",
       allProjects: "All projects →",
-      projects: [
-        {
+      viewProject: "Visit site",
+      projects: {
+        intacsep: {
           category: "Web platform",
           title: "Intacsep",
           result: "Fleet monitoring & anomaly dashboards for transport logistics",
-          image: "/projects/intacsep.png",
         },
-        {
+        homly: {
           category: "Web app",
           title: "Homly",
           result: "Condominium management — billing, residents & operations",
-          image: "/projects/homly.png",
         },
-        {
+        nabbi: {
           category: "Mobile + web",
           title: "Nabbi",
           result: "Beauty, wellness & pet services marketplace",
-          image: "/projects/nabbi.png",
         },
-      ],
+      },
     },
     contact: {
       label: "Get in touch",
@@ -146,6 +145,7 @@ export const translations = {
       services: "Servicios",
       process: "Proceso",
       work: "Proyectos",
+      login: "Iniciar sesión",
       cta: "Iniciar proyecto ↗",
       contact: "Contacto",
     },
@@ -241,26 +241,24 @@ export const translations = {
       label: "Proyectos seleccionados",
       heading: "Destacados",
       allProjects: "Todos los proyectos →",
-      projects: [
-        {
+      viewProject: "Visitar sitio",
+      projects: {
+        intacsep: {
           category: "Plataforma web",
           title: "Intacsep",
           result: "Monitoreo de flota y dashboards de anomalías para logística",
-          image: "/projects/intacsep.png",
         },
-        {
+        homly: {
           category: "App web",
           title: "Homly",
           result: "Administración de condominios — cobranza, residentes y operación",
-          image: "/projects/homly.png",
         },
-        {
+        nabbi: {
           category: "Móvil + web",
           title: "Nabbi",
           result: "Marketplace de belleza, bienestar y servicios para mascotas",
-          image: "/projects/nabbi.png",
         },
-      ],
+      },
     },
     contact: {
       label: "Contáctanos",

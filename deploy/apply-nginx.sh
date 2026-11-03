@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Ensure host nginx routes dev.spotynet.com → 127.0.0.1:3021.
+# Ensure host nginx routes spotynet-dev.spotynet.com → 127.0.0.1:3021.
+# dev.spotynet.com is Implementaciones (gateway 3025) — do not retarget it here.
 # Inserts a block if missing; otherwise updates proxy_pass.
 # Usage: sudo ./deploy/apply-nginx.sh
 set -euo pipefail
@@ -7,7 +8,7 @@ set -euo pipefail
 CONF=/etc/nginx/sites-available/spotynet-dev.conf
 BAK="${CONF}.bak.$(date +%F-%H%M%S)"
 GATEWAY=3021
-HOST=dev.spotynet.com
+HOST=spotynet-dev.spotynet.com
 
 if [[ $EUID -ne 0 ]]; then
   echo "Run with sudo: sudo $0" >&2
@@ -36,7 +37,7 @@ if n == 1:
 else:
     block = f"""
 # =========================
-# SPOTYNET LANDING (dev)
+# SPOTYNET LANDING (dev alias)
 # =========================
 
 server {{
@@ -95,10 +96,10 @@ section = """SPOTYNET LANDING (Docker Compose — per-project nginx)
 - Start: cd /home/spotynet/projects/apps/spotynet && ./dev.sh
 - Project nginx gateway: 127.0.0.1:3021
 - Next.js (internal): 3010
-- Domain: dev.spotynet.com → gateway 3021
+- Domains: spotynet.com, www.spotynet.com, spotynet-dev.spotynet.com → gateway 3021
+- dev.spotynet.com is Implementaciones (gateway 3025), not this landing
 - Apply host nginx: sudo ./deploy/apply-nginx.sh
-- TLS (once): sudo certbot --nginx -d dev.spotynet.com --redirect
-- DNS: Route 53 A record dev → EC2 Elastic IP
+- TLS (once): sudo certbot --nginx -d spotynet.com -d www.spotynet.com -d spotynet-dev.spotynet.com --redirect
 
 """
 if "SPOTYNET LANDING" in text:
@@ -132,8 +133,7 @@ fi
 
 echo
 echo "Verify:"
-echo "  curl -I -H 'Host: dev.spotynet.com' http://127.0.0.1:3021/"
-echo "  curl -I -H 'Host: dev.spotynet.com' http://127.0.0.1/"
+echo "  curl -I -H 'Host: spotynet-dev.spotynet.com' http://127.0.0.1:3021/"
+echo "  curl -I -H 'Host: spotynet.com' http://127.0.0.1/"
 echo
-echo "DNS must resolve: dig +short dev.spotynet.com   # → this EC2 EIP"
-echo "TLS once: sudo certbot --nginx -d dev.spotynet.com --redirect"
+echo "DNS must resolve: dig +short spotynet.com   # → this EC2 EIP"

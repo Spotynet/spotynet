@@ -49,26 +49,32 @@ export function Header() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Language toggle */}
+          <div className="flex items-center gap-1 sm:gap-2">
+            {/* Language — quiet utility */}
             <button
               onClick={toggle}
               aria-label={lang === "en" ? "Switch to Spanish" : "Cambiar a inglés"}
-              className="flex items-center gap-1 rounded-lg border border-[var(--card-border)] bg-[var(--card)] px-2.5 py-1.5 transition-all hover:border-[var(--accent-teal)]/40"
+              className="flex h-9 items-center gap-1 px-2 text-xs font-medium uppercase tracking-widest text-[var(--muted-foreground)] transition-colors hover:text-[var(--foreground)]"
             >
-              <span className={`text-[10px] font-bold uppercase tracking-widest transition-colors ${lang === "en" ? "text-[var(--accent-teal)]" : "text-[var(--muted-foreground)]"}`}>
-                EN
-              </span>
-              <span className="text-[10px] text-[var(--card-border)]">/</span>
-              <span className={`text-[10px] font-bold uppercase tracking-widest transition-colors ${lang === "es" ? "text-[var(--accent-teal)]" : "text-[var(--muted-foreground)]"}`}>
-                ES
-              </span>
+              <span className={lang === "en" ? "text-[var(--foreground)]" : ""}>EN</span>
+              <span className="text-[var(--card-border)]">/</span>
+              <span className={lang === "es" ? "text-[var(--foreground)]" : ""}>ES</span>
             </button>
 
-            {/* Desktop CTA */}
+            <span className="hidden h-4 w-px bg-[var(--card-border)] sm:block" aria-hidden />
+
+            {/* Login — secondary text action */}
+            <a
+              href="https://intranet.spotynet.com"
+              className="flex h-9 items-center px-2 text-xs font-medium uppercase tracking-widest text-[var(--muted-foreground)] transition-colors hover:text-[var(--foreground)]"
+            >
+              {t.nav.login}
+            </a>
+
+            {/* Primary CTA — sole filled control */}
             <Link
               href="#contact"
-              className="hidden rounded-lg border border-[var(--foreground)]/20 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-[var(--foreground)] transition-all hover:border-[var(--accent-teal)]/50 hover:text-[var(--accent-teal)] hover:shadow-[0_0_14px_var(--glow-teal)] md:inline-flex"
+              className="ml-1 hidden h-9 items-center rounded-lg bg-[var(--foreground)] px-4 text-xs font-semibold uppercase tracking-widest text-[var(--background)] transition-all hover:bg-white hover:shadow-[0_0_20px_rgba(240,240,248,0.25)] md:inline-flex"
             >
               {t.nav.cta}
             </Link>
@@ -78,7 +84,7 @@ export function Header() {
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
               onClick={() => setOpen((v) => !v)}
-              className="flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-lg border border-[var(--card-border)] bg-[var(--card)] transition-colors hover:border-[var(--accent-teal)]/40 md:hidden"
+              className="ml-1 flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-lg transition-colors hover:bg-[var(--card)] md:hidden"
             >
               <span className={`block h-[1.5px] w-5 bg-[var(--foreground)] transition-all duration-200 origin-center ${open ? "translate-y-[6.5px] rotate-45" : ""}`} />
               <span className={`block h-[1.5px] w-5 bg-[var(--foreground)] transition-all duration-200 ${open ? "opacity-0 scale-x-0" : ""}`} />
@@ -107,13 +113,21 @@ export function Header() {
               </Link>
             ))}
           </nav>
-          <Link
-            href="#contact"
-            onClick={close}
-            className="w-full rounded-xl bg-[var(--foreground)] py-4 text-center text-sm font-semibold text-[var(--background)] transition-all hover:bg-white"
-          >
-            {t.nav.cta}
-          </Link>
+          <div className="flex flex-col gap-3">
+            <Link
+              href="#contact"
+              onClick={close}
+              className="w-full rounded-xl bg-[var(--foreground)] py-4 text-center text-sm font-semibold text-[var(--background)] transition-all hover:bg-white hover:shadow-[0_0_20px_rgba(240,240,248,0.25)]"
+            >
+              {t.nav.cta}
+            </Link>
+            <a
+              href="https://intranet.spotynet.com"
+              className="w-full py-3 text-center text-sm font-medium text-[var(--muted-foreground)] transition-colors hover:text-[var(--foreground)]"
+            >
+              {t.nav.login}
+            </a>
+          </div>
         </div>
       )}
     </>

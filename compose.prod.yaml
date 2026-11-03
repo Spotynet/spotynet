@@ -1,7 +1,50 @@
-# Dedicated / production override: project nginx owns host port 80.
-# Usage: docker compose -f compose.yaml -f compose.prod.yaml up -d --build
+# Production: pull pre-built images from ECR (no build on host).
+# Project nginx publishes 127.0.0.1:8080 only; host nginx + Certbot own :80/:443.
+# Usage: SPOTYNET_IMAGE_TAG=<sha|main> ./deploy.sh
+# TLS:   sudo ./deploy/setup-prod-nginx.sh --certbot
+# Do NOT use on the shared Spotynet multi-app EC2.
+#
+# SPOTYNET_IMAGE_REGISTRY example:
+#   123456789012.dkr.ecr.us-east-1.amazonaws.com/apps/spotynet
+# Image: ${SPOTYNET_IMAGE_REGISTRY}/web:${SPOTYNET_IMAGE_TAG}
+# Published by ./build.sh (not GitHub Actions)
 
 services:
+  web:
+    image: ${SPOTYNET_IMAGE_REGISTRY}/web:${SPOTYNET_IMAGE_TAG:-main}
+    build: !reset null
+    pull_policy: always
+    volumes: !override []
+    user: "1001:1001"
+    command: ["node", "server.js"]
+    environment:
+      NEXT_TELEMETRY_DISABLED: "1"
+      PORT: "3010"
+      HOSTNAME: "0.0.0.0"
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          memory: 256M
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3010/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+
   nginx:
+    # Host nginx + Certbot own :80/:443; Compose only on localhost.
     ports: !override
-      - "80:80"
+      - "127.0.0.1:8080:80"
+    depends_on:
+      web:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

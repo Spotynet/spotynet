@@ -4,14 +4,18 @@
 # After host nginx once: sudo ./deploy/apply-nginx.sh
 # Day-to-day: ./dev.sh
 #
-# For production on a dedicated machine: ./deploy.sh
+# Release flow (separate machines/scripts):
+#   ./dev.sh     → hot reload on this box
+#   ./build.sh   → build + push image to ECR (builder/dev)
+#   ./deploy.sh  → pull + run on prod
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT"
 
-# === Dev domain (committed; shared EC2) ===
-SPOTYNET_WEB_HOST="dev.spotynet.com"
+# Public apex, www, and the landing dev alias.
+# dev.spotynet.com belongs to Implementaciones (gateway 3025).
+SPOTYNET_WEB_HOST="spotynet.com www.spotynet.com spotynet-dev.spotynet.com"
 
 export SPOTYNET_WEB_HOST
 
@@ -36,13 +40,12 @@ compose -f compose.yaml up -d --build
 echo
 compose -f compose.yaml ps
 echo
-echo "DEV URL:"
-echo "  https://${SPOTYNET_WEB_HOST}/"
+echo "Public URL:"
+echo "  https://spotynet.com/"
 echo
 echo "Logs: docker compose -f compose.yaml logs -f"
 echo "Stop: docker compose -f compose.yaml down"
 echo
 echo "If host nginx / DNS missing, once:"
-echo "  1) Route 53 A: dev.spotynet.com → this EC2 EIP"
-echo "  2) sudo ./deploy/apply-nginx.sh"
-echo "  3) sudo certbot --nginx -d dev.spotynet.com --redirect"
+echo "  1) Route 53 A: spotynet.com → this EC2 EIP"
+echo "  2) sudo certbot --nginx -d spotynet.com --redirect"
